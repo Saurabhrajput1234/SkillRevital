@@ -2,34 +2,30 @@ import React, { useState } from "react";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "../../pages/authenticated/firebase-config";
+
 
 
 
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
-  const [user, loading, error] = useAuthState(firebaseAuth);
+  
 
 
-  // const handleLogout = () => {
-  //   logOut(); // Call the logout function
-  // };
 
   return (
-    <div className="skillrevive__navbar">
-      <div className="skillrevive__navbar-links">
-        <div className="skillrevive__navbar-links_logo">
+    <div className="skillrevital__navbar">
+      <div className="skillrevital__navbar-links">
+        <div className="skillrevital__navbar-links_logo">
           {/* <img src={logo} alt="logo" /> */}
           <h1>SkillRevive</h1>
         </div>
-        <div className="skillrevive__navbar-links_container">
+        <div className="skillrevital__navbar-links_container">
           <p>
             <a href="#home">Home</a>
           </p>
           <p>
-            <a href="#wskillrevive">What is skillrevive?</a>
+            <a href="#wskillrevital">What is skillrevital?</a>
           </p>
           <p>
             <a href="#possibility">Browse Talents</a>
@@ -45,10 +41,10 @@ const Navbar = () => {
           </p>
         </div>
       </div>
-      <div className="skillrevive__navbar-sign">
+      <div className="skillrevital__navbar-sign">
       
         {user ? (
-          <div className="skillrevive__navbar-menu_container-links-sign current_user_img">
+          <div className="skillrevital__navbar-menu_container-links-sign current_user_img">
             <a href="/profile">
               <img src={user.photoURL} alt="" />
             </a>
@@ -71,7 +67,7 @@ const Navbar = () => {
         )}
       </div>
 
-      <div className="skillrevive__navbar-menu">
+      <div className="skillrevital__navbar-menu">
         {toggleMenu ? (
           <RiCloseLine
             color="#fff"
@@ -86,13 +82,13 @@ const Navbar = () => {
           />
         )}
         {toggleMenu && (
-          <div className="skillrevive__navbar-menu_container scale-up-center">
-            <div className="skillrevive__navbar-menu_container-links">
+          <div className="skillrevital__navbar-menu_container scale-up-center">
+            <div className="skillrevital__navbar-menu_container-links">
               <p>
                 <a href="#home">Home</a>
               </p>
               <p>
-                <a href="#wskillrevive">What is skillrevive?</a>
+                <a href="#wskillrevital">What is skillrevital?</a>
               </p>
               <p>
                 <a href="#possibility">Browse Talents</a>
@@ -108,7 +104,7 @@ const Navbar = () => {
               </p>
             </div>
             
-            <div className="skillrevive__navbar-menu_container-links-sign">
+            <div className="skillrevital__navbar-menu_container-links-sign">
               <p>Sign in</p>
               <button type="button">Sign up</button>
             </div>

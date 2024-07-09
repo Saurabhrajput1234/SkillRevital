@@ -52,7 +52,7 @@ const Footer = () => (
       <div className="gpt3__footer-links_div">
         <h4>Get in touch</h4>
         <p>Something in Mind?</p>
-        <p>Say 👋 at skillrevive.work@gmail.com</p>
+        <p>Say 👋 at skillrevital.work@gmail.com</p>
       </div>
     </div>
 
