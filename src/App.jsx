@@ -5,6 +5,8 @@ import Footer from "./components/footer/Footer";
 import Brand from "./components/brand/Brand";
 import Header from "./containers/header/Header";
 import Blogs from "./containers/blogs/Blog";
+import Brand from "./components/brand/Brand";
+import Features from "./containers/features/Features";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 const App = () => {
   return (
@@ -20,6 +22,9 @@ const App = () => {
                 <Header />
               </div>
               <Brand />
+              <Blogs />
+              <Features />
+              {/* <Brand /> */}
               <Blogs />
               <Footer />
             </div>
