@@ -6,6 +6,7 @@ import Brand from "./components/brand/Brand";
 import Header from "./containers/header/Header";
 import Blogs from "./containers/blogs/Blog";
 import Brand from "./components/brand/Brand";
+import CTA from "./components/cta/CTA";
 import Features from "./containers/features/Features";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
               <Blogs />
               <Features />
               {/* <Brand /> */}
+              <CTA />
               <Blogs />
               <Footer />
             </div>
