@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup"; // Import Yup for form validation
+import * as Yup from "yup";
 import Image from "../../assets/welcome.png";
 import Lottie from "react-lottie";
-import * as welcomeanimation from "../../lottie/signup.json";
+import * as welcomeanimation from "../../lottie/signup.json"; // Fixed import path
 import Logo from "../../assets/logo.png";
 import "./signup.css";
 import namaste from "../../assets/namaste.png";
@@ -12,36 +12,33 @@ import { NavLink, Navigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from "../../pages/authenticated/firebase-config";
+
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState(null);
   const [userAuthenticated, setUserAuthenticated] = useState(false);
 
-  // console.log(user)
   const formik = useFormik({
     initialValues: {
-      email: user ? user.email: "",
+      email: user ? user.email : "",
       password: "",
-      name: "", // Add name field
+      name: "",
     },
-    enableReinitialize: true,   // Enable reinitialization
+    enableReinitialize: true,
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()
         .min(8, "Must be 8 characters or greater")
         .required("Required"),
     }),
-    onSubmit: async(values) => {
-      console.log(values);
-      // Handle form submission here
-      try{
-        const {email,password} = values;
-        await createUserWithEmailAndPassword(firebaseAuth,email,password);
-
-      }catch(err){
+    onSubmit: async (values) => {
+      try {
+        const { email, password } = values;
+        await createUserWithEmailAndPassword(firebaseAuth, email, password);
+      } catch (err) {
         console.log(err);
-
       }
+      
       try {
         const response = await fetch('/register', {
           method: 'POST',
@@ -50,41 +47,31 @@ const SignupForm = () => {
           },
           body: JSON.stringify(values),
         });
-    
+
         if (!response.ok) {
           throw new Error('Failed to register user');
         }
-    
+
         const data = await response.json();
         console.log(data); // Handle successful registration response
-    
       } catch (error) {
         console.error('Error:', error);
-        // Handle registration error
       }
-    }
-    
-   
+    },
   });
-   useEffect(() => {
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setUserAuthenticated(true);
-      } else {
-        setUser(null);
-        setUserAuthenticated(false);
-      }
+      setUser(currentUser);
+      setUserAuthenticated(!!currentUser);
     });
 
     return () => unsubscribe();
   }, []);
 
-  // if (userAuthenticated) {
-  //   return <Navigate to="/" />;
-  // }
- 
-
+  if (userAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="login-main">
@@ -102,24 +89,20 @@ const SignupForm = () => {
       </div>
       <div className="login-right">
         <div className="login-right-container">
-          {/* <div className="login-logo">
-            <img src={Logo} alt="" />
-          </div> */}
           <div className="login-center">
             <div className="greetings">
               <h2>Namaste</h2>
               <img height={130} src={namaste} alt="" />
             </div>
             <p>Please Register Yourself</p>
-
             <form onSubmit={formik.handleSubmit}>
               <input
                 type="text"
                 placeholder="Full Name"
-                name="name" // Add a name attribute for formik
+                name="name"
                 onChange={formik.handleChange}
                 value={formik.values.name}
-                style={{ backgroundColor: "#feffdd"}}
+                style={{ backgroundColor: "#feffdd" }}
               />
               {formik.touched.name && formik.errors.name ? (
                 <div className="error">{formik.errors.name}</div>
@@ -127,11 +110,11 @@ const SignupForm = () => {
               <input
                 type="email"
                 placeholder="Email"
-                name="email" // Add a name attribute for formik
+                name="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-                readOnly // Make email input readonly
-                style={{ backgroundColor: "#feffdd"}}
+                readOnly
+                style={{ backgroundColor: "#feffdd" }}
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className="error">{formik.errors.email}</div>
@@ -140,10 +123,10 @@ const SignupForm = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  name="password" // Add a name attribute for formik
+                  name="password"
                   onChange={formik.handleChange}
                   value={formik.values.password}
-                  style={{ backgroundColor: "#feffdd"}}
+                  style={{ backgroundColor: "#feffdd" }}
                 />
                 {showPassword ? (
                   <FaEyeSlash onClick={() => setShowPassword(!showPassword)} />
@@ -163,12 +146,9 @@ const SignupForm = () => {
               </div>
             </form>
           </div>
-
           <p className="login-bottom-p">
             Already have an account?
-            <NavLink to="/login">
-              <a href="#">Login</a>
-            </NavLink>
+            <NavLink to="/login">Login</NavLink>
           </p>
         </div>
       </div>
