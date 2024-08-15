@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import Image from "../../assets/image.png";
 import Logo from "../../assets/logo.png";
@@ -7,13 +8,38 @@ import * as welcomeanimation from "../../lottie/login.json"; // Fixed import pat
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./login.css";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "../../pages/authenticated/firebase-config";
+import { auth, googleProvider } from '../../pages/authenticated/firebase-config';
+import { signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { NavLink, Navigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [userAuthenticated, setUserAuthenticated] = useState(false);
+  const [error, setError] = useState(null); // For displaying errors
+
+  // Function for signing in with Google
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const token = await result.user.getIdToken();
+      
+      // Send token to your backend
+      const response = await fetch('http://localhost:5000/api/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (response.ok) {
+        console.log('User authenticated successfully');
+        setUserAuthenticated(true); // Redirect user after successful login
+      }
+    } catch (error) {
+      console.error('Error during sign-in:', error);
+    }
+  };
 
   // Formik for form validation and state management
   const formik = useFormik({
@@ -28,23 +54,28 @@ const Login = () => {
         .required("Required"),
     }),
     onSubmit: async (values) => {
+      setError(null); // Clear previous errors
       try {
         const { email, password } = values;
-        await signInWithEmailAndPassword(firebaseAuth, email, password);
+        await signInWithEmailAndPassword(auth, email, password);
+        setUserAuthenticated(true); // Redirect user after successful login
       } catch (err) {
-        console.log(err);
+        console.error("Error signing in with email and password:", err);
+        setError("Failed to sign in. Please check your email and password.");
       }
     },
   });
 
+  // Check if the user is already authenticated
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUserAuthenticated(!!currentUser);
     });
 
     return () => unsubscribe();
   }, []);
 
+  // Redirect if the user is authenticated
   if (userAuthenticated) {
     return <Navigate to="/" />;
   }
@@ -70,6 +101,7 @@ const Login = () => {
             <p>Please Login Yourself</p>
             {/* Formik form */}
             <form onSubmit={formik.handleSubmit}>
+              {error && <div className="error">{error}</div>} {/* Error display */}
               <label htmlFor="email"></label>
               <br />
               <input
@@ -111,8 +143,8 @@ const Login = () => {
               </div>
               <div className="login-center-buttons">
                 <button type="submit">Log In</button>
-                <button type="button">
-                  <img src={GoogleSvg} alt="" />
+                <button type="button" onClick={signInWithGoogle}>
+                  <img src={GoogleSvg} alt="Google" />
                   Log In with Google
                 </button>
               </div>
@@ -120,10 +152,8 @@ const Login = () => {
           </div>
 
           <p className="login-bottom-p">
-            Don't have an account?
-            <NavLink to="/signup">
-              Sign Up
-            </NavLink>
+            Don't have an account?{" "}
+            <NavLink to="/signup">Sign Up</NavLink>
           </p>
         </div>
       </div>

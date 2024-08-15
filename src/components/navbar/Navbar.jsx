@@ -3,14 +3,14 @@ import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "../../pages/authenticated/firebase-config";
+import { auth } from "../../pages/authenticated/firebase-config";
 
 
 
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
-  const [user, loading, error] = useAuthState(firebaseAuth);
+  const [user, loading, error] = useAuthState(auth);
 
 
   // const handleLogout = () => {

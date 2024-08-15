@@ -1,3 +1,224 @@
 .bg {
   background-color: #feffdd;
 }
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+html {
+    font-size: 13px;
+  }
+body {
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+  }
+  .login-main {
+    display: flex;
+    padding: 3rem;
+  }
+  .greetings {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Align items vertically */
+    justify-content: center;
+  }
+  
+  h2, p {
+    margin: 0; /* Remove default margins */
+  }
+  
+  img {
+    margin-left: 10px; /* Adjust margin to create space between text and image */
+    width: 50px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+  }
+  
+  .login-left {
+    flex: 1; /* This will make the left side take up 50% of the available space */
+    height: 85vh;
+    /* background-color: #e9e9e9; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-left img {
+    max-width: 100%;
+    height: 100vh; /* Make sure the image doesn't exceed the container width */
+  }
+  .login-right {
+    flex: 1; /* This will make the right side take up 50% of the available space */
+    height: 100vh;
+  }
+  
+  .login-right-container {
+    height: 100%;
+    width: 80%;
+    margin: 0 auto;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .login-right form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-logo {
+    align-self: center;
+    padding-top: 50px;
+  }
+  
+  .login-center {
+    margin: auto 0;
+  }
+  
+  .login-logo img {
+    width: 50px;
+  }
+  
+  .login-center h2 {
+    font-size: 3.5rem;
+  }
+  
+  .login-center {
+    text-align: center;
+  }
+  
+  .login-center p {
+    font-weight: 400;
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  form input[type="email"],
+form input[type="password"],
+form input[type="text"] {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 0px;
+  border-bottom: 1px solid black;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.pass-input-div {
+  position: relative;
+}
+
+.pass-input-div svg {
+  font-size: 20px;
+  position: absolute;
+  right: 10px;
+  bottom: 35px;
+  cursor: pointer;
+  outline: none;
+}
+
+form button[type="button"] {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.login-center-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.remember-div {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.remember-div label {
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.forgot-pass-link {
+  text-decoration: none;
+  font-size: 1.3rem;
+}
+
+.forgot-pass-link:hover {
+  text-decoration: underline;
+}
+
+.login-center-buttons {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.login-center-buttons button:nth-child(1) {
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  border: 2px solid black;
+  height: 40px;
+  display: flex;
+  font-size: large;
+  justify-content: center;
+  align-items: center;
+  border-radius: 60px;
+}
+
+.login-center-buttons button:nth-child(1):hover {
+  color: #333;
+  background-color: black;
+  cursor: pointer;
+  color: white;
+}
+
+.login-center-buttons button:nth-child(2) {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+  height: 50px;
+  border: 2px solid black;
+  /* border-radius:5px;  */
+}
+
+.login-center-buttons button:nth-child(2) img {
+  width: 30px;
+}
+
+.login-center-buttons button:nth-child(2):hover {
+  background-color: #2761c2;
+  color: white;
+}
+
+.login-bottom-p {
+  text-align: center;
+  font-size: 1.5rem;
+  padding-bottom: 40px;
+}
+
+.login-bottom-p a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-bottom-p a:hover {
+  text-decoration: underline;
+}
+@media only screen and (max-width: 750px) {
+    .login-left {
+      display: none;
+    }
+  }
