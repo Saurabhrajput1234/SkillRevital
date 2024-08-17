@@ -21,7 +21,7 @@ const Footer = () => (
 
     <div className="gpt3__footer-links">
       <div className="gpt3__footer-links_logo">
-        <h1>SkillRevive</h1>
+        <h1>SkillRevital</h1>
         <img src={gpt3Logo} alt="gpt3_logo" />
       </div>
       <div className="gpt3__footer-links_div">
@@ -52,12 +52,12 @@ const Footer = () => (
       <div className="gpt3__footer-links_div">
         <h4>Get in touch</h4>
         <p>Something in Mind?</p>
-        <p>Say 👋 at skillrevital.work@gmail.com</p>
+        <p>Say 👋 at saurabh2113076@gmail.com</p>
       </div>
     </div>
 
     {/* <div className="gpt3__footer-copyright">
-      <p>@2021 SkillRevive. All rights reserved.</p>
+      <p>@2021 SkillRevital. All rights reserved.</p>
     </div> */}
   </div>
 );

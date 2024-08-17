@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="skillrevital__navbar-links">
         <div className="skillrevital__navbar-links_logo">
           {/* <img src={logo} alt="logo" /> */}
-          <h1>SkillRevive</h1>
+          <h1>SkillRevital</h1>
         </div>
         <div className="skillrevital__navbar-links_container">
           <p>
