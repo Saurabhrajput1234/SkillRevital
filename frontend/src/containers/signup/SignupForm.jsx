@@ -38,7 +38,7 @@ const SignupForm = () => {
         const { email, password, name, collegeName } = values;
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const token = await userCredential.user.getIdToken();
-        await fetch("http://localhost:5000/api/auth/signup", {
+        await fetch("api/auth/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const SignupForm = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const token = await result.user.getIdToken();
-      await fetch("http://localhost:5000/api/auth/google", {
+      await fetch("api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
