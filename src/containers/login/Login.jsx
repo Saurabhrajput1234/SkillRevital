@@ -1,23 +1,20 @@
-
 import React, { useEffect, useState } from "react";
-import Image from "../../assets/image.png";
-import Logo from "../../assets/logo.png";
-import GoogleSvg from "../../assets/icons8-google.svg";
 import Lottie from "react-lottie";
-import * as welcomeanimation from "../../lottie/login.json"; // Fixed import path
+import * as welcomeanimation from "../../lottie/login.json"; 
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./login.css";
 import { auth, googleProvider } from '../../pages/authenticated/firebase-config';
 import { signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { NavLink, Navigate } from "react-router-dom";
+import GoogleSvg from "../../assets/icons8-google.svg";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [userAuthenticated, setUserAuthenticated] = useState(false);
-  const [error, setError] = useState(null); // For displaying errors
+  const [error, setError] = useState(null);
 
-  // Function for signing in with Google
+  // Function to handle Google sign-in
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -34,10 +31,15 @@ const Login = () => {
 
       if (response.ok) {
         console.log('User authenticated successfully');
-        setUserAuthenticated(true); // Redirect user after successful login
+        setUserAuthenticated(true);
+      } else {
+        const data = await response.json();
+        console.error('Failed to authenticate:', data.message);
+        setError(data.message);
       }
     } catch (error) {
       console.error('Error during sign-in:', error);
+      setError('Failed to sign in with Google. Please try again.');
     }
   };
 
@@ -54,13 +56,33 @@ const Login = () => {
         .required("Required"),
     }),
     onSubmit: async (values) => {
-      setError(null); // Clear previous errors
+      setError(null);
       try {
         const { email, password } = values;
-        await signInWithEmailAndPassword(auth, email, password);
-        setUserAuthenticated(true); // Redirect user after successful login
+
+        // Firebase authentication with email and password
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const token = await userCredential.user.getIdToken();
+
+        // Send token to your backend for verification
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token }),
+        });
+
+        if (response.ok) {
+          console.log('User authenticated successfully');
+          setUserAuthenticated(true);
+        } else {
+          const data = await response.json();
+          console.error('Failed to authenticate:', data.message);
+          setError(data.message);
+        }
       } catch (err) {
-        console.error("Error signing in with email and password:", err);
+        console.error("Error during sign-in:", err);
         setError("Failed to sign in. Please check your email and password.");
       }
     },
@@ -103,7 +125,6 @@ const Login = () => {
             <form onSubmit={formik.handleSubmit}>
               {error && <div className="error">{error}</div>} {/* Error display */}
               <label htmlFor="email"></label>
-              <br />
               <input
                 id="email"
                 name="email"
@@ -129,7 +150,6 @@ const Login = () => {
               {formik.touched.password && formik.errors.password ? (
                 <div className="required">{formik.errors.password}</div>
               ) : null}
-              <br />
               <div className="login-center-options">
                 <div className="remember-div">
                   <input type="checkbox" id="remember-checkbox" />
